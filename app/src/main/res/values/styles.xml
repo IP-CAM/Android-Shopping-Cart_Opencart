@@ -23,15 +23,15 @@
         <item name="android:textSize">11sp</item>
     </style>
 
-    <style name="AppTheme.ProgressTheme">
+    <style name="AppTheme.ProgressThemeD">
         <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="colorControlActivated">@color/colorPrimaryDark</item>
     </style>
 
     <style name="CustomProgressActivityTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="windowActionBar">false</item>
-        <item name="colorAccent">@color/colorPrimaryDark</item>
-        <item name="colorControlActivated">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimaryRed</item>
+        <item name="colorControlActivated">@color/colorPrimaryRed</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -290,9 +290,14 @@
         <item name="android:textSize">11sp</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <!--<item name="android:progressBarStyle">@style/ProgressThemeC</item>-->
         <item name="buttonStyle">@style/ButtonStyle.Cyan</item>
         <item name="android:buttonStyle">@style/ButtonStyle.Cyan</item>
 
+    </style>
+    <style name="ProgressThemeC">
+        <item name="colorAccent">@color/colorAccentCyan</item>
+        <item name="colorControlActivated">@color/colorPrimaryDarkCyan</item>
     </style>
 
     <style name="ButtonStyle.Cyan">

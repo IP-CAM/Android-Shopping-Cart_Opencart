@@ -28,9 +28,9 @@
     <color name="colorAccentRed">#4A148C</color>
 
     <!--Color Combination Pink-->
-    <color name="colorPrimaryPink">#E91E63</color>
-    <color name="colorPrimaryDarkPink">#880E4F</color>
-    <color name="colorAccentPink">#FFFF00</color>
+    <color name="colorPrimaryPink">#f52f72</color>
+    <color name="colorPrimaryDarkPink">#b70966</color>
+    <color name="colorAccentPink">#009688</color>
 
     <!--Color Combination Purple-->
     <color name="colorPrimaryPurple">#9C27B0</color>
@@ -58,7 +58,7 @@
     <color name="colorAccentCyan">#F44336</color>
 
     <!--Color Combination Teal-->
-    <color name="colorPrimaryTeal">#009688</color>
+    <color name="colorPrimaryTeal">#01877b</color>
     <color name="colorPrimaryDarkTeal">#004D40</color>
     <color name="colorAccentTeal">#F44336</color>
 

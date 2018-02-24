@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.qemasoft.alhabibshop.app.view.fragments.Dashboard">
+    tools:context="com.qemasoft.alhabibshop.app.com.web2design.souqclone.app.view.fragments.Dashboard">
 
     <TextView
         android:id="@+id/user_name_tv"
