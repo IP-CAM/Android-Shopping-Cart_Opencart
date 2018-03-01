@@ -7,35 +7,36 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.web2design.souqclone.app.AppConstants;
-import com.web2design.souqclone.app.Preferences;
 import com.web2design.souqclone.app.R;
-import com.web2design.souqclone.app.Utils;
+import com.web2design.souqclone.app.utils.AppConstants;
+import com.web2design.souqclone.app.utils.Preferences;
+import com.web2design.souqclone.app.utils.ThemeUtils;
+import com.web2design.souqclone.app.utils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.web2design.souqclone.app.AppConstants.CURRENCY_KEY;
-import static com.web2design.souqclone.app.AppConstants.CURRENCY_SYMBOL_KEY;
-import static com.web2design.souqclone.app.AppConstants.GET_KEY;
-import static com.web2design.souqclone.app.AppConstants.KEY_FOR_KEY;
-import static com.web2design.souqclone.app.AppConstants.LANGUAGE_KEY;
-import static com.web2design.souqclone.app.AppConstants.LOGO_KEY;
-import static com.web2design.souqclone.app.AppConstants.LOGO_TYPE;
-import static com.web2design.souqclone.app.AppConstants.SECRET_KEY_FILE;
-import static com.web2design.souqclone.app.AppConstants.SECRET_KEY_URL;
-import static com.web2design.souqclone.app.AppConstants.SET_KEY;
-import static com.web2design.souqclone.app.AppConstants.SPLASH_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.THEME_CODE;
-import static com.web2design.souqclone.app.AppConstants.appContext;
-import static com.web2design.souqclone.app.AppConstants.setHomeExtra;
+import static com.web2design.souqclone.app.utils.AppConstants.CURRENCY_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.CURRENCY_SYMBOL_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.GET_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.KEY_FOR_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.LANGUAGE_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.LOGO_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.LOGO_TYPE;
+import static com.web2design.souqclone.app.utils.AppConstants.SECRET_KEY_FILE;
+import static com.web2design.souqclone.app.utils.AppConstants.SECRET_KEY_URL;
+import static com.web2design.souqclone.app.utils.AppConstants.SET_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.SPLASH_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.THEME_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.appContext;
+import static com.web2design.souqclone.app.utils.AppConstants.setHomeExtra;
 
 /**
  * Created by Inzimam Tariq on 18/10/2017.
@@ -51,15 +52,17 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        
         this.utils = new Utils(this);
+        ThemeUtils themeUtils = new ThemeUtils();
         context = getApplicationContext();
-        utils.setTheme(this);
+        themeUtils.setTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         
         try {
             progressBar = findViewById(R.id.progress_bar);
-            RelativeLayout splash = findViewById(R.id.splash_layout);
+            LinearLayout splash = findViewById(R.id.splash_layout);
             splash.setOnClickListener(this);
             
             AndroidNetworking.initialize(context);
@@ -134,6 +137,9 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
                         String themeCode = settingObject.optString("skin");
                         Preferences.setSharedPreferenceString(
                                 appContext, THEME_CODE, themeCode);
+                        utils.printLog("SplashAct", "ThemeCode = " + themeCode);
+//                        Preferences.setSharedPreferenceString(
+//                                appContext, ICON_COLOR, "white");
                         
                         String language = settingObject.optString("language");
                         String currency = settingObject.optString("currency");
@@ -165,6 +171,8 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
                             } else lang = language;
                             Preferences.setSharedPreferenceString(appContext,
                                     LANGUAGE_KEY, lang);
+                        } else {
+                            utils.printLog("Splash", "Language = No Language");
                         }
                         Preferences.setSharedPreferenceString(appContext,
                                 CURRENCY_KEY, currency);

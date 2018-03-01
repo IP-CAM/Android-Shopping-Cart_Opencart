@@ -9,14 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.web2design.souqclone.app.AppConstants;
 import com.web2design.souqclone.app.R;
+import com.web2design.souqclone.app.utils.AppConstants;
 import com.web2design.souqclone.app.view.activities.FetchData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.web2design.souqclone.app.AppConstants.RIGHT_MENU_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.RIGHT_MENU_REQUEST_CODE;
 
 /**
  * Created by Inzimam on 24-Oct-17.

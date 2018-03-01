@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,16 +29,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-import com.web2design.souqclone.app.AppConstants;
-import com.web2design.souqclone.app.MyContextWrapper;
-import com.web2design.souqclone.app.Preferences;
 import com.web2design.souqclone.app.R;
-import com.web2design.souqclone.app.Utils;
 import com.web2design.souqclone.app.controller.ExpandableListAdapterCategory;
 import com.web2design.souqclone.app.controller.ExpandableListAdapterUser;
 import com.web2design.souqclone.app.model.MenuCategory;
 import com.web2design.souqclone.app.model.MenuSubCategory;
 import com.web2design.souqclone.app.model.UserSubMenu;
+import com.web2design.souqclone.app.utils.AppConstants;
+import com.web2design.souqclone.app.utils.Preferences;
+import com.web2design.souqclone.app.utils.ThemeUtils;
+import com.web2design.souqclone.app.utils.Utils;
 import com.web2design.souqclone.app.view.fragments.Dashboard;
 import com.web2design.souqclone.app.view.fragments.FragCartDetail;
 import com.web2design.souqclone.app.view.fragments.FragChangePassword;
@@ -59,24 +61,26 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 import static android.support.v7.app.AppCompatDelegate.setCompatVectorFromResourcesEnabled;
-import static com.web2design.souqclone.app.AppConstants.CURRENCY_KEY;
-import static com.web2design.souqclone.app.AppConstants.CURRENCY_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.CURRENCY_SYMBOL_KEY;
-import static com.web2design.souqclone.app.AppConstants.DEFAULT_STRING_VAL;
-import static com.web2design.souqclone.app.AppConstants.FORCE_CANCELED;
-import static com.web2design.souqclone.app.AppConstants.LANGUAGE_KEY;
-import static com.web2design.souqclone.app.AppConstants.LANGUAGE_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.LOGO_KEY;
-import static com.web2design.souqclone.app.AppConstants.LOGO_TYPE;
-import static com.web2design.souqclone.app.AppConstants.PRIMARY_COLOR;
-import static com.web2design.souqclone.app.AppConstants.SEARCH_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.THEME_CODE;
-import static com.web2design.souqclone.app.AppConstants.appContext;
-import static com.web2design.souqclone.app.AppConstants.findStringByName;
-import static com.web2design.souqclone.app.AppConstants.getHomeExtra;
+import static com.web2design.souqclone.app.utils.AppConstants.CURRENCY_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.CURRENCY_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.CURRENCY_SYMBOL_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.DEFAULT_STRING_VAL;
+import static com.web2design.souqclone.app.utils.AppConstants.FORCE_CANCELED;
+import static com.web2design.souqclone.app.utils.AppConstants.LANGUAGE_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.LANGUAGE_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.LOGO_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.LOGO_TYPE;
+import static com.web2design.souqclone.app.utils.AppConstants.PRIMARY_COLOR;
+import static com.web2design.souqclone.app.utils.AppConstants.SEARCH_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.THEME_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.appContext;
+import static com.web2design.souqclone.app.utils.AppConstants.getHomeExtra;
 
 /**
  * Created by Inzimam Tariq on 18/10/2017.
@@ -134,23 +138,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView siteName, discountedCategoryTV;
     private ImageView logoIcon;
     private int clicks = 0;
-
-
-//    @Override
-//    protected void attachBaseContext(Context newBase) {
-//        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-//    }
+    
     
     @Override
     protected void attachBaseContext(Context newBase) {
-        
-        // create or get your new Locale object here.
-        String lang = Preferences
-                .getSharedPreferenceString(appContext, LANGUAGE_KEY, "en");
-        
-        Context context = MyContextWrapper.wrap(newBase, lang);
-        super.attachBaseContext(context);
-//        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
     
     
@@ -158,10 +150,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         
         this.utils = new Utils(this);
-        utils.setTheme(this);
+        String language = Preferences.getSharedPreferenceString(AppConstants.appContext,
+                AppConstants.LANGUAGE_KEY, "ar");
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
+        
+        ThemeUtils themeUtils = new ThemeUtils();
+        themeUtils.setTheme(this);
         
         super.onCreate(savedInstanceState);
-//        utils.changeLanguage();
+        utils.changeLanguage("en");
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         initViews();
@@ -209,8 +211,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 !theme.equalsIgnoreCase("default")) {
             
             toolbar.setBackgroundColor(Color.parseColor(primaryColor));
-            drawerCategoryHeader.setBackgroundColor(Color.parseColor(primaryColor));
-            drawerUserHeader.setBackgroundColor(Color.parseColor(primaryColor));
         }
         
     }
@@ -452,13 +452,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         
         utils.setItemCount();
 
-//        int width = getResources().getDisplayMetrics().widthPixels / 2 + 100;
-//        DrawerLayout.LayoutParams paramsLeft = (android.support.v4.widget.DrawerLayout.LayoutParams) drawerCategory.getLayoutParams();
-//        paramsLeft.width = width;
-//        drawerCategory.setLayoutParams(paramsLeft);
-//        DrawerLayout.LayoutParams paramsRight = (android.support.v4.widget.DrawerLayout.LayoutParams) drawerUser.getLayoutParams();
-//        paramsRight.width = width;
-//        drawerUser.setLayoutParams(paramsRight);
         String logoType = Preferences.getSharedPreferenceString(appContext, LOGO_TYPE, "");
         utils.printLog("LogoType = " + logoType);
         String logo = Preferences
@@ -473,7 +466,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             siteName.setText(logo);
         }
-        
         
         setCompatVectorFromResourcesEnabled(true);
         actionbarToggle();
@@ -541,28 +533,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
         
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer.isDrawerOpen(GravityCompat.START))
             drawer.closeDrawer(GravityCompat.START);
-        } else if (drawer.isDrawerOpen(GravityCompat.END)) {
+        if (drawer.isDrawerOpen(GravityCompat.END))
             drawer.closeDrawer(GravityCompat.END);
+        
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            if (fragmentManager.getBackStackEntryCount() != 0)
+                fragmentManager.popBackStack();
+            
         } else {
             clicks++;
-            
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            if (fragmentManager.getBackStackEntryCount() != 0) {
-                fragmentManager.popBackStack();
-            } else {
-                if (clicks == 1) {
-                    Toast.makeText(context, findStringByName("exit_app_text"),
-                            Toast.LENGTH_SHORT).show();
-                }
-                if (clicks % 2 == 0) {
-                    super.onBackPressed();
-                }
+            if (clicks == 1) {
+                Toast.makeText(context, R.string.exit_app_text,
+                        Toast.LENGTH_SHORT).show();
             }
-            
-            
+            if (clicks % 2 == 0) {
+                finish();
+//                super.onBackPressed();
+            }
         }
+        
     }
     
     public void changeFragment(int position) {
@@ -610,14 +602,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         
         headerListUser = new ArrayList<>();
         hashMapUser = new HashMap<>();
-        
-        String[] notLoggedInMenu = {findStringByName("login_text"),
-                findStringByName("action_register_text"),
-                findStringByName("contact_us_text")};
-        String[] loggedInMenu = {findStringByName("account"), findStringByName("edit_account_text"),
-                findStringByName("action_change_pass_text"),
-                findStringByName("order_history_text"),
-                findStringByName("logout"), findStringByName("contact_us_text")};
+        Resources res = getResources();
+        String[] notLoggedInMenu = {res.getString(R.string.login_text),
+                res.getString(R.string.action_register_text),
+                res.getString(R.string.contact_us_text)};
+        String[] loggedInMenu = {res.getString(R.string.account),
+                res.getString(R.string.edit_account_text),
+                res.getString(R.string.action_change_pass_text),
+                res.getString(R.string.order_history_text),
+                res.getString(R.string.logout),
+                res.getString(R.string.contact_us_text)};
         
         List<UserSubMenu> userSubMenusList = new ArrayList<>();
         if (utils.isLoggedIn()) {

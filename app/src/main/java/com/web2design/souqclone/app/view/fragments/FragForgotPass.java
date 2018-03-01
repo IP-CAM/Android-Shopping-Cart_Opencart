@@ -12,9 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-
-import com.web2design.souqclone.app.AppConstants;
 import com.web2design.souqclone.app.R;
+import com.web2design.souqclone.app.utils.AppConstants;
 import com.web2design.souqclone.app.view.activities.FetchData;
 
 import org.json.JSONException;
@@ -24,7 +23,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.web2design.souqclone.app.AppConstants.FORGOT_PASS_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.FORGOT_PASS_REQUEST_CODE;
 
 /**
  * Created by Inzimam on 24-Oct-17.
@@ -51,7 +50,7 @@ public class FragForgotPass extends MyBaseFragment {
         initUtils();
         
         utils.printLog("InsideForgetPassFragment");
-        emailLayout.setTypeface(Typeface.createFromAsset(context.getAssets(),
+        emailLayout.setTypeface(Typeface.createFromAsset(mContext.getAssets(),
                 "fonts/DroidKufi-Regular.ttf"));
         
         passResetBtn.setOnClickListener(new View.OnClickListener() {

@@ -11,9 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
-import com.web2design.souqclone.app.AppConstants;
-import com.web2design.souqclone.app.Preferences;
+import com.web2design.souqclone.app.utils.AppConstants;
+import com.web2design.souqclone.app.utils.Preferences;
 import com.web2design.souqclone.app.R;
 import com.web2design.souqclone.app.controller.OrderAdapter;
 import com.web2design.souqclone.app.model.MyOrder;
@@ -29,10 +28,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.web2design.souqclone.app.AppConstants.CUSTOMER_ID_KEY;
-import static com.web2design.souqclone.app.AppConstants.DEFAULT_STRING_VAL;
-import static com.web2design.souqclone.app.AppConstants.ORDER_HISTORY_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.appContext;
+import static com.web2design.souqclone.app.utils.AppConstants.CUSTOMER_ID_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.DEFAULT_STRING_VAL;
+import static com.web2design.souqclone.app.utils.AppConstants.ORDER_HISTORY_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.appContext;
 
 /**
  * Created by Inzimam on 24-Oct-17.
@@ -55,7 +54,7 @@ public class FragOrderHistory extends MyBaseFragment {
         View view = inflater.inflate(R.layout.frag_order_history, container, false);
         initUtils();
         initViews(view);
-        this.context = getContext();
+        this.mContext = getContext();
         
         loadData();
         setupAdaptersAndShowData();
@@ -73,7 +72,7 @@ public class FragOrderHistory extends MyBaseFragment {
         utils.printLog("Item Data list populated");
         orderAdapter = new OrderAdapter(myOrderList);
         RecyclerView.LayoutManager mLayoutManager =
-                new LinearLayoutManager(context
+                new LinearLayoutManager(mContext
                         , LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());

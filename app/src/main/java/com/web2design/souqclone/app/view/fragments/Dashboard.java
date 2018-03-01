@@ -10,14 +10,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
-import com.web2design.souqclone.app.Preferences;
+import com.web2design.souqclone.app.utils.Preferences;
 import com.web2design.souqclone.app.R;
 
-import static com.web2design.souqclone.app.AppConstants.CUSTOMER_FIRST_NAME;
-import static com.web2design.souqclone.app.AppConstants.CUSTOMER_LAST_NAME;
-import static com.web2design.souqclone.app.AppConstants.DEFAULT_STRING_VAL;
-import static com.web2design.souqclone.app.AppConstants.appContext;
-import static com.web2design.souqclone.app.AppConstants.findStringByName;
+import static com.web2design.souqclone.app.utils.AppConstants.CUSTOMER_FIRST_NAME;
+import static com.web2design.souqclone.app.utils.AppConstants.CUSTOMER_LAST_NAME;
+import static com.web2design.souqclone.app.utils.AppConstants.DEFAULT_STRING_VAL;
+import static com.web2design.souqclone.app.utils.AppConstants.appContext;
+import static com.web2design.souqclone.app.utils.AppConstants.findStringByName;
 
 
 /**

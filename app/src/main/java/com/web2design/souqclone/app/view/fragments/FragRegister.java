@@ -16,9 +16,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-
-import com.web2design.souqclone.app.AppConstants;
 import com.web2design.souqclone.app.R;
+import com.web2design.souqclone.app.utils.AppConstants;
 import com.web2design.souqclone.app.view.activities.FetchData;
 
 import org.json.JSONException;
@@ -28,8 +27,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.web2design.souqclone.app.AppConstants.REGISTER_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.getApiCallUrl;
+import static com.web2design.souqclone.app.utils.AppConstants.REGISTER_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.getApiCallUrl;
 
 /**
  * Created by Inzimam Tariq on 24-Oct-17.
@@ -60,9 +59,9 @@ public class FragRegister extends MyBaseFragment {
         applyAccent();
 //        guestCheck();
         
-        inputLayoutPassword.setTypeface(Typeface.createFromAsset(context.getAssets(),
+        inputLayoutPassword.setTypeface(Typeface.createFromAsset(mContext.getAssets(),
                 "fonts/DroidKufi-Regular.ttf"));
-        confirmPassLayout.setTypeface(Typeface.createFromAsset(context.getAssets(),
+        confirmPassLayout.setTypeface(Typeface.createFromAsset(mContext.getAssets(),
                 "fonts/DroidKufi-Regular.ttf"));
         rgNewsletter.check(R.id.rbNo);
         privacyPolicyTV.setOnClickListener(new View.OnClickListener() {

@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.web2design.souqclone.app.R;
-import com.web2design.souqclone.app.Utils;
+import com.web2design.souqclone.app.utils.Utils;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ import java.util.List;
 public class ProductImagePreviewAdapter extends RecyclerView.Adapter<ProductImagePreviewAdapter.MyViewHolder> {
 
     private List<String> dataList;
-    private Context context;
+    private Context mContext;
     private Utils utils;
     private ImageView previewIV;
     private ProgressBar progressBar;
@@ -42,8 +42,8 @@ public class ProductImagePreviewAdapter extends RecyclerView.Adapter<ProductImag
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        this.context = parent.getContext();
-        this.utils = new Utils(context);
+        this.mContext = parent.getContext();
+        this.utils = new Utils(mContext);
 
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_product_image_preview, parent, false);
@@ -62,7 +62,7 @@ public class ProductImagePreviewAdapter extends RecyclerView.Adapter<ProductImag
             setDefaultImage(imgPath, pos);
 
         if (!imgPath.isEmpty())
-            Picasso.with(context)
+            Picasso.with(mContext)
                     .load(imgPath)
                     .noFade()
                     .resize(100, 100)
@@ -82,7 +82,7 @@ public class ProductImagePreviewAdapter extends RecyclerView.Adapter<ProductImag
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Picasso.with(context)
+                Picasso.with(mContext)
                         .load(imgPath)
                         .noFade()
 //                        .resize(480, 170)
@@ -105,7 +105,7 @@ public class ProductImagePreviewAdapter extends RecyclerView.Adapter<ProductImag
 
     private void setDefaultImage(String imgPath, int pos) {
         if (!imgPath.isEmpty())
-            Picasso.with(context)
+            Picasso.with(mContext)
                     .load(imgPath)
                     .noFade()
 //                    .resize(480, 170)

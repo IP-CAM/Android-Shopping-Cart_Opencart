@@ -12,22 +12,21 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.web2design.souqclone.app.AppConstants;
-import com.web2design.souqclone.app.MyApp;
-import com.web2design.souqclone.app.Preferences;
 import com.web2design.souqclone.app.R;
-import com.web2design.souqclone.app.Utils;
 import com.web2design.souqclone.app.model.MyItem;
+import com.web2design.souqclone.app.utils.MyApp;
+import com.web2design.souqclone.app.utils.Preferences;
+import com.web2design.souqclone.app.utils.Utils;
 import com.web2design.souqclone.app.view.fragments.FragProductDetail;
 
 import java.util.List;
 import java.util.Locale;
 
-import static com.web2design.souqclone.app.AppConstants.ACCENT_COLOR;
-import static com.web2design.souqclone.app.AppConstants.appContext;
+import static com.web2design.souqclone.app.utils.AppConstants.ACCENT_COLOR;
+import static com.web2design.souqclone.app.utils.AppConstants.CURRENCY_SYMBOL_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.appContext;
 
 
 /**
@@ -37,7 +36,7 @@ import static com.web2design.souqclone.app.AppConstants.appContext;
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> {
     
     private List<MyItem> dataList;
-    private Context context;
+    private Context mContext;
     private Utils utils;
     private String accentColor = Preferences.getSharedPreferenceString(
             appContext, ACCENT_COLOR, "#555555");
@@ -52,8 +51,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         
-        this.context = parent.getContext();
-        this.utils = new Utils(context);
+        this.mContext = parent.getContext();
+        this.utils = new Utils(mContext);
         
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_item, parent, false);
@@ -72,7 +71,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             String imgPath = data.getItemImage();
             utils.printLog("ImagePath = " + imgPath);
             if (!imgPath.isEmpty())
-                Picasso.with(context)
+                Picasso.with(mContext)
                         .load(imgPath)
                         .noFade()
                         .resize(250, 250)
@@ -88,13 +87,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
                                 holder.img.setImageResource(R.drawable.ic_close_black);
                             }
                         });
-//            Picasso.with(context).setIndicatorsEnabled(true);
+//            Picasso.with(mContext).setIndicatorsEnabled(true);
             
             holder.img.getLayoutParams().height =
                     Utils.getScreenWidth(holder.img.getContext()) / 2 - 50;
             
-            String symbol = Preferences.getSharedPreferenceString(context
-                    , AppConstants.CURRENCY_SYMBOL_KEY, "$");
+            String symbol = Preferences.getSharedPreferenceString(appContext
+                    , CURRENCY_SYMBOL_KEY, "$");
             
             TextView itemPriceTV = holder.itemPriceFull;
             if (!accentColor.isEmpty()) {
@@ -139,10 +138,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
     
     public class MyViewHolder extends RecyclerView.ViewHolder {
         
-        public TextView itemTitle, itemPriceFull, itemPriceSpecial;
-        public LinearLayout customLinearLayout;
-        private ImageView img;
-        private ProgressBar progressBar;
+        TextView itemTitle, itemPriceFull, itemPriceSpecial;
+        LinearLayout customLinearLayout;
+        ImageView img;
+        ProgressBar progressBar;
         
         public MyViewHolder(View itemView) {
             

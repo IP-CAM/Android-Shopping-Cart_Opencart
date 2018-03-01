@@ -2,6 +2,7 @@ package com.web2design.souqclone.app.view.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -18,9 +19,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
-import com.web2design.souqclone.app.AppConstants;
-import com.web2design.souqclone.app.Preferences;
+import com.web2design.souqclone.app.utils.AppConstants;
+import com.web2design.souqclone.app.utils.Preferences;
 import com.web2design.souqclone.app.R;
 import com.web2design.souqclone.app.controller.CartDetailAdapter;
 import com.web2design.souqclone.app.model.MyCartDetail;
@@ -37,13 +37,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.web2design.souqclone.app.AppConstants.ADD_TO_CART_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.CUSTOMER_ID_KEY;
-import static com.web2design.souqclone.app.AppConstants.DEFAULT_STRING_VAL;
-import static com.web2design.souqclone.app.AppConstants.FORCE_CANCELED;
-import static com.web2design.souqclone.app.AppConstants.UNIQUE_ID_KEY;
-import static com.web2design.souqclone.app.AppConstants.appContext;
-import static com.web2design.souqclone.app.AppConstants.optionsList;
+import static com.web2design.souqclone.app.utils.AppConstants.ADD_TO_CART_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.CUSTOMER_ID_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.DEFAULT_STRING_VAL;
+import static com.web2design.souqclone.app.utils.AppConstants.FORCE_CANCELED;
+import static com.web2design.souqclone.app.utils.AppConstants.UNIQUE_ID_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.appContext;
+import static com.web2design.souqclone.app.utils.AppConstants.optionsList;
 
 /**
  * Created by Inzimam Tariq on 24-Oct-17.
@@ -149,15 +149,16 @@ public class FragCartDetail extends MyBaseFragment {
     
     private void showCouponDialog() {
         
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setCancelable(true);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setCancelable(false);
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.layout_alert_dialog_input, null);
         
         builder.setView(dialogView);
         
-        TextView title = dialogView.findViewById(R.id.dialog_title);
-        title.setText(R.string.use_coupon_text);
+        TextView titleTV = dialogView.findViewById(R.id.dialog_title);
+        titleTV.setText(R.string.use_coupon_text);
+        View separator = dialogView.findViewById(R.id.title_separator);
         Button buttonPositive = dialogView.findViewById(R.id.positive_btn);
         buttonPositive.setText(R.string.apply);
         Button buttonNegative = dialogView.findViewById(R.id.negative_btn);
@@ -167,6 +168,28 @@ public class FragCartDetail extends MyBaseFragment {
         input.setHint(R.string.enter_coupon_code);
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
+        String theme = Preferences.getSharedPreferenceString(AppConstants.appContext,
+                AppConstants.THEME_CODE, "default");
+        String pColor = Preferences.getSharedPreferenceString(
+                AppConstants.appContext, AppConstants.PRIMARY_COLOR, "#EC7625");
+        String aColor = Preferences.getSharedPreferenceString(
+                AppConstants.appContext, AppConstants.ACCENT_COLOR, "#555555");
+        
+        if (theme != null && !theme.isEmpty() &&
+                !theme.equalsIgnoreCase("default")) {
+            titleTV.setTextColor(Color.parseColor(pColor));
+            separator.setBackgroundColor(Color.parseColor(pColor));
+            buttonPositive.setBackgroundColor(Color.parseColor(pColor));
+            buttonNegative.setBackgroundColor(Color.parseColor(aColor));
+        } else {
+            pColor = "#EC7625";
+            aColor = "#555555";
+            titleTV.setTextColor(Color.parseColor(pColor));
+            separator.setBackgroundColor(Color.parseColor(pColor));
+            buttonPositive.setBackgroundColor(Color.parseColor(pColor));
+            buttonNegative.setBackgroundColor(Color.parseColor(aColor));
+        }
+        
         buttonPositive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -207,7 +230,7 @@ public class FragCartDetail extends MyBaseFragment {
             
             if (resultCode == Activity.RESULT_OK) {
                 if (requestCode == ADD_TO_CART_REQUEST_CODE) {
-                    JSONObject response = null;
+                    JSONObject response;
                     try {
                         response = new JSONObject(data.getStringExtra("result"));
                         
@@ -250,7 +273,7 @@ public class FragCartDetail extends MyBaseFragment {
                         
                         cartDetailAdapter = new CartDetailAdapter(cartDetailList, false);
                         RecyclerView.LayoutManager mLayoutManager =
-                                new LinearLayoutManager(context
+                                new LinearLayoutManager(mContext
                                         , LinearLayoutManager.VERTICAL, false);
                         mRecyclerView.setLayoutManager(mLayoutManager);
                         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -258,7 +281,7 @@ public class FragCartDetail extends MyBaseFragment {
                         mRecyclerView.setAdapter(cartDetailAdapter);
                         utils.printLog("Adapter Set Success");
                         
-                        LayoutInflater inflater = LayoutInflater.from(context);
+                        LayoutInflater inflater = LayoutInflater.from(mContext);
                         totalContainer.removeAllViews();
                         
                         JSONArray totals = response.optJSONArray("totals");

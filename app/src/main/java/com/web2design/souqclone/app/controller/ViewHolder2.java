@@ -19,7 +19,7 @@ public class ViewHolder2 extends RecyclerView.ViewHolder {
     private ImageView imageView;
     private ProgressBar progressBar;
 
-    public ViewHolder2(View v) {
+    ViewHolder2(View v) {
         super(v);
 //        title = v.findViewById(R.id.title_tv);
 //        description = v.findViewById(R.id.description_tv);

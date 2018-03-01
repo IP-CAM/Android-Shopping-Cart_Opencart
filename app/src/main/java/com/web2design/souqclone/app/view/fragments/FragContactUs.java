@@ -10,10 +10,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-
-import com.web2design.souqclone.app.AppConstants;
-import com.web2design.souqclone.app.Preferences;
 import com.web2design.souqclone.app.R;
+import com.web2design.souqclone.app.utils.AppConstants;
+import com.web2design.souqclone.app.utils.Preferences;
 import com.web2design.souqclone.app.view.activities.FetchData;
 
 import org.json.JSONException;
@@ -23,13 +22,13 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.web2design.souqclone.app.AppConstants.CONTACT_US_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.CUSTOMER_CONTACT;
-import static com.web2design.souqclone.app.AppConstants.CUSTOMER_EMAIL;
-import static com.web2design.souqclone.app.AppConstants.CUSTOMER_FIRST_NAME;
-import static com.web2design.souqclone.app.AppConstants.CUSTOMER_LAST_NAME;
-import static com.web2design.souqclone.app.AppConstants.DEFAULT_STRING_VAL;
-import static com.web2design.souqclone.app.AppConstants.appContext;
+import static com.web2design.souqclone.app.utils.AppConstants.CONTACT_US_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.CUSTOMER_CONTACT;
+import static com.web2design.souqclone.app.utils.AppConstants.CUSTOMER_EMAIL;
+import static com.web2design.souqclone.app.utils.AppConstants.CUSTOMER_FIRST_NAME;
+import static com.web2design.souqclone.app.utils.AppConstants.CUSTOMER_LAST_NAME;
+import static com.web2design.souqclone.app.utils.AppConstants.DEFAULT_STRING_VAL;
+import static com.web2design.souqclone.app.utils.AppConstants.appContext;
 
 
 /**

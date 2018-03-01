@@ -1,6 +1,7 @@
 package com.web2design.souqclone.app.controller;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,17 +10,19 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.squareup.picasso.Picasso;
-import com.web2design.souqclone.app.Preferences;
 import com.web2design.souqclone.app.R;
-import com.web2design.souqclone.app.Utils;
 import com.web2design.souqclone.app.model.UserSubMenu;
+import com.web2design.souqclone.app.utils.MyApp;
+import com.web2design.souqclone.app.utils.Preferences;
+import com.web2design.souqclone.app.utils.Utils;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
-import static com.web2design.souqclone.app.AppConstants.appContext;
+import static com.web2design.souqclone.app.utils.AppConstants.LANGUAGE_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.appContext;
 
 
 /**
@@ -100,7 +103,7 @@ public class ExpandableListAdapterUser extends BaseExpandableListAdapter {
         
         if (getChildrenCount(groupPosition) == 1) {
             groupView = new View(parent.getContext());
-
+            
             divider.setVisibility(View.GONE);
             
         } else {
@@ -138,11 +141,24 @@ public class ExpandableListAdapterUser extends BaseExpandableListAdapter {
             }
             
             if (!userSubMenu.getFlagImage().isEmpty()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    childTV.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+                }
                 ImageView imageView = itemView.findViewById(R.id.image_view);
                 imageView.setVisibility(View.VISIBLE);
                 int val = childTV.getPaddingLeft();
                 utils.printLog("ExpandableAdapter", "padding = " + val);
-                childTV.setPadding(0, 0, 0, 0);
+                String lang = Preferences
+                        .getSharedPreferenceString(appContext, LANGUAGE_KEY, "ar");
+                Locale l = new Locale(lang);
+                Log.e("FragSlider", "IsRTL = " + MyApp.isRTLTrue(l));
+                if (MyApp.isRTLTrue(l)) {
+                    imageView.setPadding(0, 0, imageView.getPaddingRight(), 0);
+                    childTV.setPadding(0, 0, 22, 0);
+                } else {
+                    imageView.setPadding(imageView.getPaddingRight(), 0, 0, 0);
+                    childTV.setPadding(22, 0, 0, 0);
+                }
                 val = childTV.getPaddingLeft();
                 utils.printLog("ExpandableAdapter", "padding After = " + val);
 //                int v = android.R.attr.expandableListPreferredChildPaddingLeft;

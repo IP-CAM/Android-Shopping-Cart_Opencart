@@ -12,10 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-
-import com.web2design.souqclone.app.AppConstants;
-import com.web2design.souqclone.app.Preferences;
 import com.web2design.souqclone.app.R;
+import com.web2design.souqclone.app.utils.AppConstants;
+import com.web2design.souqclone.app.utils.Preferences;
 import com.web2design.souqclone.app.view.activities.FetchData;
 
 import org.json.JSONException;
@@ -25,11 +24,11 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.web2design.souqclone.app.AppConstants.CHANGE_PASS_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.CUSTOMER_EMAIL;
-import static com.web2design.souqclone.app.AppConstants.DEFAULT_STRING_VAL;
-import static com.web2design.souqclone.app.AppConstants.FORCE_CANCELED;
-import static com.web2design.souqclone.app.AppConstants.appContext;
+import static com.web2design.souqclone.app.utils.AppConstants.CHANGE_PASS_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.CUSTOMER_EMAIL;
+import static com.web2design.souqclone.app.utils.AppConstants.DEFAULT_STRING_VAL;
+import static com.web2design.souqclone.app.utils.AppConstants.FORCE_CANCELED;
+import static com.web2design.souqclone.app.utils.AppConstants.appContext;
 
 /**
  * Created by Inzimam on 24-Oct-17.
@@ -53,11 +52,11 @@ public class FragChangePassword extends MyBaseFragment {
         initViews(view);
         initUtils();
         
-        inputLayoutPassword.setTypeface(Typeface.createFromAsset(context.getAssets(),
+        inputLayoutPassword.setTypeface(Typeface.createFromAsset(mContext.getAssets(),
                 "fonts/DroidKufi-Regular.ttf"));
-        newPassLayout.setTypeface(Typeface.createFromAsset(context.getAssets(),
+        newPassLayout.setTypeface(Typeface.createFromAsset(mContext.getAssets(),
                 "fonts/DroidKufi-Regular.ttf"));
-        confirmPassLayout.setTypeface(Typeface.createFromAsset(context.getAssets(),
+        confirmPassLayout.setTypeface(Typeface.createFromAsset(mContext.getAssets(),
                 "fonts/DroidKufi-Regular.ttf"));
         
         changePassBtn.setOnClickListener(new View.OnClickListener() {

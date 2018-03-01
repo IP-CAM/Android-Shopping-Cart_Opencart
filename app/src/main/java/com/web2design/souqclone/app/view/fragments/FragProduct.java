@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -22,9 +23,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
-import com.web2design.souqclone.app.AppConstants;
-import com.web2design.souqclone.app.Preferences;
 import com.web2design.souqclone.app.R;
 import com.web2design.souqclone.app.controller.ExpandableListAdapterCategory;
 import com.web2design.souqclone.app.controller.ItemAdapter;
@@ -33,6 +31,8 @@ import com.web2design.souqclone.app.model.MenuCategory;
 import com.web2design.souqclone.app.model.MenuSubCategory;
 import com.web2design.souqclone.app.model.MyCategory;
 import com.web2design.souqclone.app.model.MyItem;
+import com.web2design.souqclone.app.utils.AppConstants;
+import com.web2design.souqclone.app.utils.Preferences;
 import com.web2design.souqclone.app.view.activities.FetchData;
 
 import org.json.JSONArray;
@@ -46,12 +46,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.web2design.souqclone.app.AppConstants.ACCENT_COLOR;
-import static com.web2design.souqclone.app.AppConstants.LEFT;
-import static com.web2design.souqclone.app.AppConstants.PRIMARY_COLOR;
-import static com.web2design.souqclone.app.AppConstants.PRODUCT_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.THEME_CODE;
-import static com.web2design.souqclone.app.AppConstants.appContext;
+import static com.web2design.souqclone.app.utils.AppConstants.ACCENT_COLOR;
+import static com.web2design.souqclone.app.utils.AppConstants.LEFT;
+import static com.web2design.souqclone.app.utils.AppConstants.PRIMARY_COLOR;
+import static com.web2design.souqclone.app.utils.AppConstants.PRODUCT_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.THEME_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.appContext;
 
 
 /**
@@ -63,10 +63,10 @@ public class FragProduct extends MyBaseFragment implements View.OnClickListener 
 //    private ProgressBar progressBar;
     private RelativeLayout filterLayout, sortLayout;
     private SubCatAdapter subCatAdapter;
-    private RecyclerView subCatRecycleView;
+    private RecyclerView subCatRecyclerView;
     private ItemAdapter itemAdapter;
     private List<MyItem> myItemList;
-    private TextView productTitleTV, filterTV, sortTV;
+    private TextView categoryTitleTV, filterTV, sortTV;
     private int selectedIndex;
     private String sortType;
     private String sortOrder;
@@ -75,6 +75,8 @@ public class FragProduct extends MyBaseFragment implements View.OnClickListener 
     
     private List<MenuCategory> headerList;
     private HashMap<MenuCategory, List<MenuSubCategory>> hashMap;
+    
+    private boolean showSubCat;
     
     
     public FragProduct() {
@@ -95,6 +97,14 @@ public class FragProduct extends MyBaseFragment implements View.OnClickListener 
             requestData(bundle.getString("id"));
         }
         
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            categoryTitleTV.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_expand_more_black, 0);
+        } else {
+            categoryTitleTV.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_expand_more_black, 0);
+        }
+        if (!showSubCat)
+            subCatRecyclerView.setVisibility(View.GONE);
+        categoryTitleTV.setOnClickListener(this);
         filterLayout.setOnClickListener(this);
         sortLayout.setOnClickListener(this);
         utils.setCompoundDrawable(filterTV, LEFT, R.drawable.ic_filter_black);
@@ -118,7 +128,6 @@ public class FragProduct extends MyBaseFragment implements View.OnClickListener 
             utils.printLog("sortOrder=" + bundle
                     .getString("sortOrder"));
             if (bundle.getBoolean("hasSortFilter", false)) {
-                
                 map.put("sort", bundle.getString("sortType", ""));
                 map.put("order", bundle.getString("sortOrder", ""));
             }
@@ -154,8 +163,8 @@ public class FragProduct extends MyBaseFragment implements View.OnClickListener 
 //        progressBar = view.findViewById(R.id.progress_bar);
         filterLayout = view.findViewById(R.id.filter_layout);
         sortLayout = view.findViewById(R.id.sort_layout);
-        productTitleTV = view.findViewById(R.id.category_title_tv);
-        subCatRecycleView = view.findViewById(R.id.sub_cat_recycle_view);
+        categoryTitleTV = view.findViewById(R.id.category_title_tv);
+        subCatRecyclerView = view.findViewById(R.id.sub_cat_recycle_view);
         
         mRecyclerView = view.findViewById(R.id.product_img_recycler_view);
         filterTV = view.findViewById(R.id.filter_tv);
@@ -173,7 +182,7 @@ public class FragProduct extends MyBaseFragment implements View.OnClickListener 
                     final JSONObject response = new JSONObject(data.getStringExtra("result"));
                     
                     String categoryName = response.optString("category_name");
-                    productTitleTV.setText(categoryName);
+                    categoryTitleTV.setText(categoryName);
                     
                     JSONArray categories = response.optJSONArray("categories");
                     JSONArray products = response.optJSONArray("products");
@@ -190,7 +199,7 @@ public class FragProduct extends MyBaseFragment implements View.OnClickListener 
                     List<MyCategory> categoryList = new ArrayList<>();
                     if (categories != null) {
                         
-                        productTitleTV.setVisibility(View.VISIBLE);
+                        categoryTitleTV.setVisibility(View.VISIBLE);
                         
                         for (int i = 0; i < categories.length(); i++) {
                             JSONObject catObj = categories.optJSONObject(i);
@@ -201,13 +210,13 @@ public class FragProduct extends MyBaseFragment implements View.OnClickListener 
                         }
                         
                         RecyclerView.LayoutManager mLayoutManagerCat =
-                                new LinearLayoutManager(context,
+                                new LinearLayoutManager(mContext,
                                         LinearLayoutManager.VERTICAL, false);
-                        subCatRecycleView.setLayoutManager(mLayoutManagerCat);
-                        subCatRecycleView.setItemAnimator(new DefaultItemAnimator());
+                        subCatRecyclerView.setLayoutManager(mLayoutManagerCat);
+                        subCatRecyclerView.setItemAnimator(new DefaultItemAnimator());
                         
                         subCatAdapter = new SubCatAdapter(categoryList);
-                        subCatRecycleView.setAdapter(subCatAdapter);
+                        subCatRecyclerView.setAdapter(subCatAdapter);
                     }
                     
                     utils.printLog("Products", products.toString());
@@ -220,7 +229,7 @@ public class FragProduct extends MyBaseFragment implements View.OnClickListener 
                     }
                     itemAdapter = new ItemAdapter(myItemList);
                     RecyclerView.LayoutManager mLayoutManager =
-                            new GridLayoutManager(context, 2, LinearLayoutManager.VERTICAL, false);
+                            new GridLayoutManager(mContext, 2, LinearLayoutManager.VERTICAL, false);
                     mRecyclerView.setLayoutManager(mLayoutManager);
                     mRecyclerView.setItemAnimator(new DefaultItemAnimator());
                     
@@ -254,13 +263,32 @@ public class FragProduct extends MyBaseFragment implements View.OnClickListener 
     
     @Override
     public void onClick(View v) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setCancelable(false);
         AlertDialog dialog;
         switch (v.getId()) {
             
+            case R.id.category_title_tv:
+                if (showSubCat) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                        categoryTitleTV.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_expand_more_black, 0);
+                    } else {
+                        categoryTitleTV.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_expand_more_black, 0);
+                    }
+                    subCatRecyclerView.setVisibility(View.GONE);
+                    showSubCat = false;
+                } else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                        categoryTitleTV.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_expand_less_black, 0);
+                    } else {
+                        categoryTitleTV.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_expand_less_black, 0);
+                    }
+                    subCatRecyclerView.setVisibility(View.VISIBLE);
+                    showSubCat = true;
+                }
+                break;
             case R.id.sort_layout:
-                List<String> filterList = Arrays.asList(context.getResources()
+                List<String> filterList = Arrays.asList(mContext.getResources()
                         .getStringArray(R.array.sort_array));
                 
                 
@@ -354,7 +382,7 @@ public class FragProduct extends MyBaseFragment implements View.OnClickListener 
                 selectedFilters = new ArrayList<>();
                 builder.setTitle(R.string.filter_text);
                 
-                ExpandableListView myList = new ExpandableListView(context);
+                ExpandableListView myList = new ExpandableListView(mContext);
                 ExpandableListAdapterCategory myAdapter = new ExpandableListAdapterCategory(
                         headerList, hashMap, true);
                 myList.setAdapter(myAdapter);

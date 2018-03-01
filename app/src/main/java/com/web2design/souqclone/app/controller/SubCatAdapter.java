@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 
 import com.web2design.souqclone.app.R;
-import com.web2design.souqclone.app.Utils;
+import com.web2design.souqclone.app.utils.Utils;
 import com.web2design.souqclone.app.model.MyCategory;
 import com.web2design.souqclone.app.view.fragments.FragProduct;
 
@@ -27,7 +27,7 @@ import java.util.List;
 public class SubCatAdapter extends RecyclerView.Adapter<SubCatAdapter.MyViewHolder> {
 
     private List<MyCategory> dataList;
-    private Context context;
+    private Context mContext;
     private Utils utils;
 
     public SubCatAdapter(List<MyCategory> dataList) {
@@ -38,8 +38,8 @@ public class SubCatAdapter extends RecyclerView.Adapter<SubCatAdapter.MyViewHold
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        this.context = parent.getContext();
-        this.utils = new Utils(context);
+        this.mContext = parent.getContext();
+        this.utils = new Utils(mContext);
 
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_sub_category, parent, false);
@@ -64,7 +64,6 @@ public class SubCatAdapter extends RecyclerView.Adapter<SubCatAdapter.MyViewHold
                     Bundle bundle = new Bundle();
                     bundle.putString("id", data.getCategoryId());
                     utils.printLog("categoryId", data.getCategoryId());
-
                     utils.switchFragment(new FragProduct(), bundle);
                 }
             });

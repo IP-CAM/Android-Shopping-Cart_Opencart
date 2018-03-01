@@ -52,6 +52,11 @@
     <color name="colorPrimaryDarkBlue">#0D47A1</color>
     <color name="colorAccentBlue">#F44336</color>
 
+    <!--Color Combination Light Blue-->
+    <color name="colorPrimaryLightBlue">#05aefa</color>
+    <color name="colorPrimaryDarkLightBlue">#01579B</color>
+    <color name="colorAccentLightBlue">#F44336</color>
+
     <!--Color Combination Cyan-->
     <color name="colorPrimaryCyan">#00BCD4</color>
     <color name="colorPrimaryDarkCyan">#006064</color>

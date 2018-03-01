@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.web2design.souqclone.app.R;
-import com.web2design.souqclone.app.Utils;
+import com.web2design.souqclone.app.utils.Utils;
 import com.web2design.souqclone.app.model.MenuCategory;
 import com.web2design.souqclone.app.model.MenuSubCategory;
 
@@ -30,7 +30,7 @@ public class ExpandableListAdapterCategory extends BaseExpandableListAdapter {
     private HashMap<MenuCategory, List<MenuSubCategory>> listHashMap;
     private boolean isFilter;
     private Utils utils;
-    private Context context;
+    private Context mContext;
     
     public ExpandableListAdapterCategory(List<MenuCategory> dataListHeader,
                                          HashMap<MenuCategory, List<MenuSubCategory>> listHashMap,
@@ -80,8 +80,8 @@ public class ExpandableListAdapterCategory extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
                              ViewGroup parent) {
-        context = parent.getContext();
-        utils = new Utils(context);
+        mContext = parent.getContext();
+        utils = new Utils(mContext);
         MenuCategory menuCategory = (MenuCategory) getGroup(groupPosition);
         
         View groupView = LayoutInflater.from(parent.getContext())
@@ -96,7 +96,7 @@ public class ExpandableListAdapterCategory extends BaseExpandableListAdapter {
         String imgPath = menuCategory.getMenuCategoryImage();
         utils.printLog("Product Image = " + imgPath);
         if (imgPath != null && !imgPath.isEmpty()) {
-            int width = (int) context.getResources().getDimension(R.dimen.image_width);
+            int width = (int) mContext.getResources().getDimension(R.dimen.image_width);
             imageView.getLayoutParams().height = width;
             imageView.getLayoutParams().width = width;
             Picasso.with(parent.getContext()).load(menuCategory.getMenuCategoryImage())

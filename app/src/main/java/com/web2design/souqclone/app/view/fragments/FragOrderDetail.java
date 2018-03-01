@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
-import com.web2design.souqclone.app.AppConstants;
+import com.web2design.souqclone.app.utils.AppConstants;
 import com.web2design.souqclone.app.R;
 import com.web2design.souqclone.app.controller.OrderDetailAdapter;
 import com.web2design.souqclone.app.model.Product;
@@ -29,8 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.web2design.souqclone.app.AppConstants.DEFAULT_STRING_VAL;
-import static com.web2design.souqclone.app.AppConstants.ORDER_DETAIL_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.DEFAULT_STRING_VAL;
+import static com.web2design.souqclone.app.utils.AppConstants.ORDER_DETAIL_REQUEST_CODE;
 
 /**
  * Created by Inzimam on 24-Oct-17.
@@ -93,7 +93,7 @@ public class FragOrderDetail extends MyBaseFragment {
         utils.printLog("Order Data list populated");
         orderDetailAdapter = new OrderDetailAdapter(myOrderList);
         RecyclerView.LayoutManager mLayoutManager =
-                new LinearLayoutManager(context
+                new LinearLayoutManager(mContext
                         , LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());

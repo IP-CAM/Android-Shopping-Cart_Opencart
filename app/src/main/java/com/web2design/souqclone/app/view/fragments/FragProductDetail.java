@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.web2design.souqclone.app.AppConstants;
+import com.web2design.souqclone.app.utils.AppConstants;
 import com.web2design.souqclone.app.R;
 import com.web2design.souqclone.app.controller.ProductImagePreviewAdapter;
 import com.web2design.souqclone.app.controller.ProductOptionsAdapter;
@@ -37,9 +37,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.web2design.souqclone.app.AppConstants.FORCE_CANCELED;
-import static com.web2design.souqclone.app.AppConstants.PRODUCT_DETAIL_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.findStringByName;
+import static com.web2design.souqclone.app.utils.AppConstants.FORCE_CANCELED;
+import static com.web2design.souqclone.app.utils.AppConstants.PRODUCT_DETAIL_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.findStringByName;
 
 
 /**
@@ -186,7 +186,7 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                         mRecyclerView.setVisibility(View.GONE);
                         String imgPath = proObj.optString("image");
                         if (!imgPath.isEmpty())
-                            Picasso.with(context)
+                            Picasso.with(mContext)
                                     .load(imgPath)
                                     .noFade()
                                     .into(previewIV, new Callback() {

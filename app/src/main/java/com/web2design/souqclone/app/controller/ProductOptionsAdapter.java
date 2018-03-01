@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 
 import com.web2design.souqclone.app.R;
-import com.web2design.souqclone.app.Utils;
+import com.web2design.souqclone.app.utils.Utils;
 import com.web2design.souqclone.app.model.Options;
 import com.web2design.souqclone.app.model.ProductOptionValueItem;
 
@@ -25,7 +25,7 @@ import java.util.List;
 public class ProductOptionsAdapter extends RecyclerView.Adapter<ProductOptionsAdapter.MyViewHolder> {
 
     private List<Options> dataList;
-    private Context context;
+    private Context mContext;
     private Utils utils;
     private ProductOptionsAdapterInterface adapterInterface;
 
@@ -41,8 +41,8 @@ public class ProductOptionsAdapter extends RecyclerView.Adapter<ProductOptionsAd
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        this.context = parent.getContext();
-        this.utils = new Utils(context);
+        this.mContext = parent.getContext();
+        this.utils = new Utils(mContext);
 
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_product_option, parent, false);

@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.web2design.souqclone.app.R;
-import com.web2design.souqclone.app.Utils;
+import com.web2design.souqclone.app.utils.Utils;
 import com.web2design.souqclone.app.model.MyCategory;
 import com.web2design.souqclone.app.view.fragments.FragProduct;
 
@@ -30,7 +30,7 @@ import java.util.List;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
     
     private List<MyCategory> dataList;
-    private Context context;
+    private Context mContext;
     private Utils utils;
 //    private boolean isPlainCategory;
     
@@ -41,8 +41,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View categoryView;
-        this.context = parent.getContext();
-        this.utils = new Utils(context);
+        this.mContext = parent.getContext();
+        this.utils = new Utils(mContext);
 //        if (isPlainCategory) {
 //            categoryView = LayoutInflater.from(parent.getContext())
 //                    .inflate(R.layout.layout_categories, parent, false);
@@ -63,7 +63,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         holder.categoryTitle.setText(data.getCategoryTitle());
         String imgPath = data.getCatImage();
         if (!imgPath.isEmpty())
-            Picasso.with(context).load(imgPath).into(holder.categoryImage, new Callback() {
+            Picasso.with(mContext).load(imgPath).into(holder.categoryImage, new Callback() {
                 @Override
                 public void onSuccess() {
                     holder.progressBar.setVisibility(View.GONE);
@@ -106,7 +106,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
             customLinearLayout = itemView.findViewById(R.id.cat_layout);
             progressBar = itemView.findViewById(R.id.progress_bar);
             int itemToShow = 2;
-            int screenWidth = Utils.getScreenWidth(context);
+            int screenWidth = Utils.getScreenWidth(mContext);
             if (screenWidth <= 250) {
                 itemToShow = 1;
             } else if (screenWidth > 480 && screenWidth <= 1280) {

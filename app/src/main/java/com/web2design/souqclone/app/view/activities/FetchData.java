@@ -10,15 +10,15 @@ import com.androidnetworking.common.ANRequest;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.web2design.souqclone.app.AppConstants;
+import com.web2design.souqclone.app.utils.AppConstants;
 import com.web2design.souqclone.app.R;
-import com.web2design.souqclone.app.Utils;
+import com.web2design.souqclone.app.utils.Utils;
 
 import org.json.JSONObject;
 
 import java.util.Map;
 
-import static com.web2design.souqclone.app.AppConstants.getApiCallUrl;
+import static com.web2design.souqclone.app.utils.AppConstants.getApiCallUrl;
 
 public class FetchData extends AppCompatActivity {
     

@@ -17,8 +17,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
-import com.web2design.souqclone.app.AppConstants;
-import com.web2design.souqclone.app.Preferences;
+import com.web2design.souqclone.app.utils.AppConstants;
+import com.web2design.souqclone.app.utils.Preferences;
 import com.web2design.souqclone.app.R;
 import com.web2design.souqclone.app.view.activities.FetchData;
 import com.web2design.souqclone.app.view.activities.MainActivity;
@@ -30,16 +30,16 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.web2design.souqclone.app.AppConstants.CUSTOMER_CONTACT;
-import static com.web2design.souqclone.app.AppConstants.CUSTOMER_EMAIL;
-import static com.web2design.souqclone.app.AppConstants.CUSTOMER_FIRST_NAME;
-import static com.web2design.souqclone.app.AppConstants.CUSTOMER_ID_KEY;
-import static com.web2design.souqclone.app.AppConstants.CUSTOMER_LAST_NAME;
-import static com.web2design.souqclone.app.AppConstants.DEFAULT_STRING_VAL;
-import static com.web2design.souqclone.app.AppConstants.IS_LOGIN;
-import static com.web2design.souqclone.app.AppConstants.LOGIN_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.UNIQUE_ID_KEY;
-import static com.web2design.souqclone.app.AppConstants.appContext;
+import static com.web2design.souqclone.app.utils.AppConstants.CUSTOMER_CONTACT;
+import static com.web2design.souqclone.app.utils.AppConstants.CUSTOMER_EMAIL;
+import static com.web2design.souqclone.app.utils.AppConstants.CUSTOMER_FIRST_NAME;
+import static com.web2design.souqclone.app.utils.AppConstants.CUSTOMER_ID_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.CUSTOMER_LAST_NAME;
+import static com.web2design.souqclone.app.utils.AppConstants.DEFAULT_STRING_VAL;
+import static com.web2design.souqclone.app.utils.AppConstants.IS_LOGIN;
+import static com.web2design.souqclone.app.utils.AppConstants.LOGIN_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.UNIQUE_ID_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.appContext;
 
 
 /**
@@ -50,7 +50,6 @@ public class FragLogin extends MyBaseFragment {
     private EditText emailET, passET;
     private Button loginBtn;
     private TextView registerTV, forgotPassTV;
-    
     private TextInputLayout inputLayoutPassword;
     
     public FragLogin() {
@@ -67,7 +66,7 @@ public class FragLogin extends MyBaseFragment {
         initUtils();
         applyAccent();
         
-        inputLayoutPassword.setTypeface(Typeface.createFromAsset(context.getAssets(),
+        inputLayoutPassword.setTypeface(Typeface.createFromAsset(mContext.getAssets(),
                 "fonts/DroidKufi-Regular.ttf"));
         
         registerTV.setOnClickListener(new View.OnClickListener() {
@@ -158,7 +157,7 @@ public class FragLogin extends MyBaseFragment {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            ((MainActivity) context).recreate();
+                            ((MainActivity) mContext).recreate();
                         }
                     }, 100);
                 } catch (JSONException e) {

@@ -17,9 +17,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-
-import com.web2design.souqclone.app.AppConstants;
-import com.web2design.souqclone.app.Preferences;
+import com.web2design.souqclone.app.utils.AppConstants;
+import com.web2design.souqclone.app.utils.Preferences;
 import com.web2design.souqclone.app.R;
 import com.web2design.souqclone.app.view.activities.FetchData;
 
@@ -33,14 +32,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.web2design.souqclone.app.AppConstants.ADD_ADDRESS_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.COUNTRIES_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.CUSTOMER_ID_KEY;
-import static com.web2design.souqclone.app.AppConstants.DEFAULT_STRING_VAL;
-import static com.web2design.souqclone.app.AppConstants.EDIT_ADDRESS_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.RIGHT;
-import static com.web2design.souqclone.app.AppConstants.STATES_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.appContext;
+import static com.web2design.souqclone.app.utils.AppConstants.ADD_ADDRESS_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.COUNTRIES_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.CUSTOMER_ID_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.DEFAULT_STRING_VAL;
+import static com.web2design.souqclone.app.utils.AppConstants.EDIT_ADDRESS_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.RIGHT;
+import static com.web2design.souqclone.app.utils.AppConstants.STATES_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.appContext;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -205,7 +204,7 @@ public class AddAddress extends MyBaseFragment implements View.OnClickListener {
     
     @Override
     public void onClick(View v) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         AlertDialog dialog;
         
         switch (v.getId()) {

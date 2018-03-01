@@ -14,12 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-
-import com.web2design.souqclone.app.AppConstants;
-import com.web2design.souqclone.app.Preferences;
 import com.web2design.souqclone.app.R;
 import com.web2design.souqclone.app.controller.AddressBookAdapter;
 import com.web2design.souqclone.app.model.Address;
+import com.web2design.souqclone.app.utils.AppConstants;
+import com.web2design.souqclone.app.utils.Preferences;
 import com.web2design.souqclone.app.view.activities.FetchData;
 
 import org.json.JSONArray;
@@ -32,11 +31,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.web2design.souqclone.app.AppConstants.ADDRESS_BOOK_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.CUSTOMER_ID_KEY;
-import static com.web2design.souqclone.app.AppConstants.DEFAULT_STRING_VAL;
-import static com.web2design.souqclone.app.AppConstants.FORCE_CANCELED;
-import static com.web2design.souqclone.app.AppConstants.appContext;
+import static com.web2design.souqclone.app.utils.AppConstants.ADDRESS_BOOK_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.CUSTOMER_ID_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.DEFAULT_STRING_VAL;
+import static com.web2design.souqclone.app.utils.AppConstants.FORCE_CANCELED;
+import static com.web2design.souqclone.app.utils.AppConstants.appContext;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -109,7 +108,7 @@ public class AddressBook extends MyBaseFragment {
             if (resultCode == Activity.RESULT_OK) {
                 if (requestCode == ADDRESS_BOOK_REQUEST_CODE) {
                     JSONArray addresses = response.optJSONArray("addresses");
-                    if (addresses == null) {
+                    if (addresses == null || addresses.toString().isEmpty()) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
                             utils.showToast(R.string.add_address_context);
                         else {

@@ -3,6 +3,7 @@ package com.web2design.souqclone.app.view.activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -11,36 +12,49 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-
 import com.web2design.souqclone.app.R;
-import com.web2design.souqclone.app.Utils;
+import com.web2design.souqclone.app.utils.AppConstants;
+import com.web2design.souqclone.app.utils.Preferences;
+import com.web2design.souqclone.app.utils.Utils;
+
+import java.util.Locale;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 public class SearchActivity extends AppCompatActivity {
-
-    private Context context;
+    
     private Utils utils;
     private SearchView searchView;
     private ImageView exitBtn;
-
+    
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-
-
+    
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        
+        String language = Preferences.getSharedPreferenceString(AppConstants.appContext,
+                AppConstants.LANGUAGE_KEY, "ar");
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
+        
         super.onCreate(savedInstanceState);
-        this.utils = new Utils(this);
+        
         setContentView(R.layout.activity_search);
-        this.context = this;
+        this.utils = new Utils(this);
+        
         initViews();
         setFinishOnTouchOutside(false);
-
+        
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.width = MATCH_PARENT;
         lp.gravity = Gravity.TOP | Gravity.START;
@@ -54,16 +68,16 @@ public class SearchActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        
     }
-
+    
     private void initViews() {
         searchView = findViewById(R.id.search_view_);
         exitBtn = findViewById(R.id.exit_activity_btn);
     }
-
+    
     private void setupSearchView() {
-
+        
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -74,7 +88,7 @@ public class SearchActivity extends AppCompatActivity {
                 utils.showToast(query);
                 return false;
             }
-
+            
             @Override
             public boolean onQueryTextChange(String newText) {
 //                Toast.makeText(context, newText, Toast.LENGTH_SHORT).show();
@@ -82,5 +96,5 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
     }
-
+    
 }

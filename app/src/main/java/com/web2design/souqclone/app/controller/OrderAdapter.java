@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 
 import com.web2design.souqclone.app.R;
-import com.web2design.souqclone.app.Utils;
+import com.web2design.souqclone.app.utils.Utils;
 import com.web2design.souqclone.app.model.MyOrder;
 import com.web2design.souqclone.app.view.fragments.FragOrderDetail;
 
@@ -26,7 +26,7 @@ import java.util.List;
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder> {
 
     private List<MyOrder> myOrderList;
-    private Context context;
+    private Context mContext;
     private Utils utils;
 
     public OrderAdapter(List<MyOrder> myOrderList) {
@@ -38,8 +38,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        this.context = parent.getContext();
-        this.utils = new Utils(context);
+        this.mContext = parent.getContext();
+        this.utils = new Utils(mContext);
 
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_order, parent, false);

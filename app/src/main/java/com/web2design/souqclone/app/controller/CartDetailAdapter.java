@@ -14,18 +14,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.web2design.souqclone.app.AppConstants;
-import com.web2design.souqclone.app.Preferences;
 import com.web2design.souqclone.app.R;
-import com.web2design.souqclone.app.Utils;
 import com.web2design.souqclone.app.model.MyCartDetail;
 import com.web2design.souqclone.app.model.Options;
+import com.web2design.souqclone.app.utils.AppConstants;
+import com.web2design.souqclone.app.utils.Preferences;
+import com.web2design.souqclone.app.utils.Utils;
 import com.web2design.souqclone.app.view.fragments.FragCartDetail;
 
 import java.util.List;
 
-import static com.web2design.souqclone.app.AppConstants.ACCENT_COLOR;
-import static com.web2design.souqclone.app.AppConstants.appContext;
+import static com.web2design.souqclone.app.utils.AppConstants.ACCENT_COLOR;
+import static com.web2design.souqclone.app.utils.AppConstants.appContext;
 
 
 /**
@@ -36,7 +36,8 @@ public class CartDetailAdapter
         extends RecyclerView.Adapter<CartDetailAdapter.MyViewHolder> {
     
     private List<MyCartDetail> myCartDetailList;
-    private Context context;
+    private Context mContext;
+    
     private Utils utils;
     private boolean isFromCheckout;
     private String accentColor = Preferences.getSharedPreferenceString(
@@ -50,8 +51,8 @@ public class CartDetailAdapter
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         
-        this.context = parent.getContext();
-        this.utils = new Utils(context);
+        this.mContext = parent.getContext();
+        this.utils = new Utils(mContext);
         
         int layoutId;
         if (isFromCheckout) {
@@ -81,13 +82,13 @@ public class CartDetailAdapter
                 for (int i = 0; i < optionsList.size(); i++) {
                     utils.printLog("Option " + i + " = " + optionsList.get(i).getValue());
                     
-                    TextView textView = new TextView(context);
+                    TextView textView = new TextView(mContext);
                     textView.setLayoutParams(
                             new LinearLayout.LayoutParams(
                                     ViewGroup.LayoutParams.MATCH_PARENT,
                                     ViewGroup.LayoutParams.WRAP_CONTENT));
                     textView.setText(optionsList.get(i).getValue());
-                    textView.setTypeface(Typeface.createFromAsset(context.getAssets(),
+                    textView.setTypeface(Typeface.createFromAsset(mContext.getAssets(),
                             "fonts/DroidKufi-Regular.ttf"));
                     holder.productOptionsLayout.addView(textView);
                 }
@@ -95,7 +96,7 @@ public class CartDetailAdapter
             }
             
             
-            String symbol = Preferences.getSharedPreferenceString(context
+            String symbol = Preferences.getSharedPreferenceString(mContext
                     , AppConstants.CURRENCY_SYMBOL_KEY, "$");
             String p = data.getOrderQty().concat("x")
                     .concat(data.getProductPrice().concat("").concat(symbol));
@@ -106,7 +107,7 @@ public class CartDetailAdapter
             String imgPath = data.getProductImage();
             utils.printLog("Product Image = " + imgPath);
             if (imgPath != null && !imgPath.isEmpty()) {
-                Picasso.with(context).load(imgPath).into(holder.productImage);
+                Picasso.with(mContext).load(imgPath).into(holder.productImage);
             }
             
             if (!isFromCheckout) {
@@ -187,8 +188,6 @@ public class CartDetailAdapter
                 } else if (id == R.id.update_cart_ibtn_minus) {
                     
                     if (quantity <= 1) {
-//                        utils.showAlertDialog(findStringByName("information_text"),
-//                                findStringByName("quantity_info"));
                         utils.showAlert(R.string.information_text, R.string.quantity_info,
                                 false,
                                 R.string.ok, null,

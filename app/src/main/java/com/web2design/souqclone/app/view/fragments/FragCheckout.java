@@ -23,15 +23,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.kofigyan.stateprogressbar.StateProgressBar;
-
-import com.web2design.souqclone.app.AppConstants;
-import com.web2design.souqclone.app.Preferences;
 import com.web2design.souqclone.app.R;
 import com.web2design.souqclone.app.controller.CartDetailAdapter;
 import com.web2design.souqclone.app.model.Address;
 import com.web2design.souqclone.app.model.MyCartDetail;
 import com.web2design.souqclone.app.model.PaymentMethod;
 import com.web2design.souqclone.app.model.ShippingMethod;
+import com.web2design.souqclone.app.utils.AppConstants;
+import com.web2design.souqclone.app.utils.Preferences;
 import com.web2design.souqclone.app.view.activities.FetchData;
 
 import org.json.JSONArray;
@@ -45,23 +44,23 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static com.web2design.souqclone.app.AppConstants.ACCENT_COLOR;
-import static com.web2design.souqclone.app.AppConstants.ADDRESS_BOOK_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.CONFIRM_CHECKOUT_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.CUSTOMER_ID_KEY;
-import static com.web2design.souqclone.app.AppConstants.DEFAULT_STRING_VAL;
-import static com.web2design.souqclone.app.AppConstants.FORCE_CANCELED;
-import static com.web2design.souqclone.app.AppConstants.LEFT;
-import static com.web2design.souqclone.app.AppConstants.PAYMENT_METHOD_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.PLACE_ORDER_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.PRIMARY_COLOR;
-import static com.web2design.souqclone.app.AppConstants.RIGHT;
-import static com.web2design.souqclone.app.AppConstants.SHIPPING_METHOD_REQUEST_CODE;
-import static com.web2design.souqclone.app.AppConstants.THEME_CODE;
-import static com.web2design.souqclone.app.AppConstants.UNIQUE_ID_KEY;
-import static com.web2design.souqclone.app.AppConstants.appContext;
-import static com.web2design.souqclone.app.AppConstants.findStringByName;
-import static com.web2design.souqclone.app.AppConstants.getShippingSelectedIndex;
+import static com.web2design.souqclone.app.utils.AppConstants.ACCENT_COLOR;
+import static com.web2design.souqclone.app.utils.AppConstants.ADDRESS_BOOK_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.CONFIRM_CHECKOUT_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.CUSTOMER_ID_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.DEFAULT_STRING_VAL;
+import static com.web2design.souqclone.app.utils.AppConstants.FORCE_CANCELED;
+import static com.web2design.souqclone.app.utils.AppConstants.LEFT;
+import static com.web2design.souqclone.app.utils.AppConstants.PAYMENT_METHOD_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.PLACE_ORDER_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.PRIMARY_COLOR;
+import static com.web2design.souqclone.app.utils.AppConstants.RIGHT;
+import static com.web2design.souqclone.app.utils.AppConstants.SHIPPING_METHOD_REQUEST_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.THEME_CODE;
+import static com.web2design.souqclone.app.utils.AppConstants.UNIQUE_ID_KEY;
+import static com.web2design.souqclone.app.utils.AppConstants.appContext;
+import static com.web2design.souqclone.app.utils.AppConstants.findStringByName;
+import static com.web2design.souqclone.app.utils.AppConstants.getShippingSelectedIndex;
 
 public class FragCheckout extends MyBaseFragment implements View.OnClickListener {
     
@@ -408,7 +407,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                         radioButton.setId(i);
                         RadioGroup.LayoutParams rgParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT,
                                 RadioGroup.LayoutParams.WRAP_CONTENT);
-                        radioButton.setTypeface(Typeface.createFromAsset(context.getAssets(),
+                        radioButton.setTypeface(Typeface.createFromAsset(mContext.getAssets(),
                                 "fonts/DroidKufi-Regular.ttf"));
                         radioGroupShippingMethod.addView(radioButton, rgParams);
                     }
@@ -450,7 +449,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                         RadioGroup.LayoutParams rgParams = new RadioGroup.LayoutParams(
                                 RadioGroup.LayoutParams.MATCH_PARENT,
                                 RadioGroup.LayoutParams.WRAP_CONTENT);
-                        radioButton.setTypeface(Typeface.createFromAsset(context.getAssets(),
+                        radioButton.setTypeface(Typeface.createFromAsset(mContext.getAssets(),
                                 "fonts/DroidKufi-Regular.ttf"));
                         radioGroupPaymentMethod.addView(radioButton, rgParams);
                     }
@@ -485,7 +484,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     CartDetailAdapter cartDetailAdapter = new CartDetailAdapter(cartDetailList
                             , true);
                     RecyclerView.LayoutManager mLayoutManager =
-                            new LinearLayoutManager(context
+                            new LinearLayoutManager(mContext
                                     , LinearLayoutManager.VERTICAL, false);
                     mRecyclerView.setLayoutManager(mLayoutManager);
                     mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -494,7 +493,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     if (!cartDetailList.isEmpty() || cartDetailList.size() > 0)
                         mRecyclerView.setAdapter(cartDetailAdapter);
                     
-                    LayoutInflater inflater = LayoutInflater.from(context);
+                    LayoutInflater inflater = LayoutInflater.from(mContext);
                     totalContainer.removeAllViews();
                     
                     JSONArray totals = response.optJSONArray("totals");

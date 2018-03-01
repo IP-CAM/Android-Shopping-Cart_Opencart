@@ -10,14 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.web2design.souqclone.app.R;
-import com.web2design.souqclone.app.Utils;
 import com.web2design.souqclone.app.model.MyCategory;
 import com.web2design.souqclone.app.model.MyItem;
 import com.web2design.souqclone.app.model.Slideshow;
+import com.web2design.souqclone.app.utils.Utils;
 import com.web2design.souqclone.app.view.fragments.FragProduct;
 
 import org.json.JSONArray;
@@ -27,7 +26,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.web2design.souqclone.app.AppConstants.getHomeExtra;
+import static com.web2design.souqclone.app.utils.AppConstants.findStringByName;
+import static com.web2design.souqclone.app.utils.AppConstants.getHomeExtra;
 
 
 /**
@@ -45,7 +45,7 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private List<Object> myAllItemsList = new ArrayList<>();
     
     
-    private Context context;
+    private Context mContext;
     private Utils utils;
     
     
@@ -77,8 +77,8 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         
-        this.context = parent.getContext();
-        utils = new Utils(context);
+        this.mContext = parent.getContext();
+        utils = new Utils(mContext);
         RecyclerView.ViewHolder viewHolder;
         
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -109,15 +109,16 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         RecyclerView.LayoutManager mLayoutManagerCat = null;
         int layoutColumnsCat = 2;
         int layoutColumnsItem = 2;
+        List<Object> list;
         if (o instanceof List) {
-            List<Object> list = (List<Object>) myAllItemsList.get(position);
+            list = (List<Object>) myAllItemsList.get(position);
             
             
             if (list.size() < 4) {
                 layoutColumnsCat = 1;
                 layoutColumnsItem = 1;
             }
-            int screenWidth = Utils.getScreenWidth(context);
+            int screenWidth = Utils.getScreenWidth(mContext);
             if (screenWidth > 480 && list.size() < 5) {
                 layoutColumnsCat = 1;
             }
@@ -130,11 +131,12 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         switch (itemType) {
             case CATEGORY_VIEW:
                 mLayoutManagerCat =
-                        new GridLayoutManager(context, layoutColumnsCat,
+                        new GridLayoutManager(mContext, layoutColumnsCat,
                                 LinearLayoutManager.HORIZONTAL, false);
                 ViewHolder1 vh1 = (ViewHolder1) holder;
-                vh1.getmRecyclerView().setLayoutManager(mLayoutManagerCat);
-                vh1.getmRecyclerView().setAdapter(new CategoryAdapter(
+                vh1.getTitle().setText(findStringByName(keysStrList.get(position)));
+                vh1.getRecyclerView().setLayoutManager(mLayoutManagerCat);
+                vh1.getRecyclerView().setAdapter(new CategoryAdapter(
                         (List<MyCategory>) myAllItemsList.get(position)));
                 break;
             case PROMOTION_VIEW:
@@ -143,11 +145,12 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
             default:
                 mLayoutManagerCat =
-                        new GridLayoutManager(context, layoutColumnsItem,
+                        new GridLayoutManager(mContext, layoutColumnsItem,
                                 LinearLayoutManager.HORIZONTAL, false);
                 ViewHolder1 vh3 = (ViewHolder1) holder;
-                vh3.getmRecyclerView().setLayoutManager(mLayoutManagerCat);
-                vh3.getmRecyclerView().setAdapter(new ItemAdapter(
+                vh3.getTitle().setText(findStringByName(keysStrList.get(position)));
+                vh3.getRecyclerView().setLayoutManager(mLayoutManagerCat);
+                vh3.getRecyclerView().setAdapter(new ItemAdapter(
                         (List<MyItem>) myAllItemsList.get(position)));
                 break;
         }
@@ -167,8 +170,8 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             utils.printLog("bannerPath", "" + imgPath);
             if (imgPath != null && !imgPath.isEmpty()) {
                 utils.printLog("bannerPathInsideTrue", "" + imgPath);
-//                Picasso.with(context).load(imgPath).into(vh2.getImageView());
-                Picasso.with(context)
+//                Picasso.with(mContext).load(imgPath).into(vh2.getImageView());
+                Picasso.with(mContext)
                         .load(imgPath)
                         .into(vh2.getImageView(), new Callback() {
                             @Override

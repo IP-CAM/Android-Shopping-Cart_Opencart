@@ -11,14 +11,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.web2design.souqclone.app.R;
-import com.web2design.souqclone.app.Utils;
+import com.web2design.souqclone.app.utils.Utils;
 import com.web2design.souqclone.app.model.Address;
 import com.web2design.souqclone.app.view.fragments.AddAddress;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.web2design.souqclone.app.AppConstants.findStringByName;
+import static com.web2design.souqclone.app.utils.AppConstants.findStringByName;
 
 /**
  * Created by Inzimam on 17-Oct-17.
@@ -27,7 +27,7 @@ import static com.web2design.souqclone.app.AppConstants.findStringByName;
 public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.MyViewHolder> {
     
     private List<Address> dataList;
-    private Context context;
+    private Context mContext;
     private Utils utils;
     private int itemPosition;
     
@@ -38,8 +38,8 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         
-        this.context = parent.getContext();
-        this.utils = new Utils(context);
+        this.mContext = parent.getContext();
+        this.utils = new Utils(mContext);
         
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_address, parent, false);
@@ -73,7 +73,7 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
             @Override
             public boolean onLongClick(View v) {
                 utils.printLog("Position", "Long Click Position = " + holder.getAdapterPosition());
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setTitle(R.string.please_select);
                 builder.setCancelable(false);
                 

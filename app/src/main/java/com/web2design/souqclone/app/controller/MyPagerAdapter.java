@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.web2design.souqclone.app.R;
-import com.web2design.souqclone.app.Utils;
+import com.web2design.souqclone.app.utils.Utils;
 import com.web2design.souqclone.app.model.Slideshow;
 import com.web2design.souqclone.app.view.fragments.FragProduct;
 import com.web2design.souqclone.app.view.fragments.FragProductDetail;

@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 
 import com.web2design.souqclone.app.R;
-import com.web2design.souqclone.app.Utils;
+import com.web2design.souqclone.app.utils.Utils;
 import com.web2design.souqclone.app.model.Product;
 
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.List;
 public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.MyViewHolder> {
 
     private List<Product> productList;
-    private Context context;
+    private Context mContext;
     private Utils utils;
 
     public OrderDetailAdapter(List<Product> myOrderDetailList) {
@@ -35,8 +35,8 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        this.context = parent.getContext();
-        this.utils = new Utils(context);
+        this.mContext = parent.getContext();
+        this.utils = new Utils(mContext);
         
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_order_detail, parent, false);
