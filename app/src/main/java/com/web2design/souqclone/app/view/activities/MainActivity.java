@@ -72,6 +72,7 @@ import static com.web2design.souqclone.app.utils.AppConstants.CURRENCY_REQUEST_C
 import static com.web2design.souqclone.app.utils.AppConstants.CURRENCY_SYMBOL_KEY;
 import static com.web2design.souqclone.app.utils.AppConstants.DEFAULT_STRING_VAL;
 import static com.web2design.souqclone.app.utils.AppConstants.FORCE_CANCELED;
+import static com.web2design.souqclone.app.utils.AppConstants.HOME_REQUEST_CODE;
 import static com.web2design.souqclone.app.utils.AppConstants.LANGUAGE_KEY;
 import static com.web2design.souqclone.app.utils.AppConstants.LANGUAGE_REQUEST_CODE;
 import static com.web2design.souqclone.app.utils.AppConstants.LOGO_KEY;
@@ -81,6 +82,8 @@ import static com.web2design.souqclone.app.utils.AppConstants.SEARCH_REQUEST_COD
 import static com.web2design.souqclone.app.utils.AppConstants.THEME_CODE;
 import static com.web2design.souqclone.app.utils.AppConstants.appContext;
 import static com.web2design.souqclone.app.utils.AppConstants.getHomeExtra;
+import static com.web2design.souqclone.app.utils.AppConstants.isHasToRecall;
+import static com.web2design.souqclone.app.utils.AppConstants.setHasToRecall;
 
 /**
  * Created by Inzimam Tariq on 18/10/2017.
@@ -173,8 +176,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.context = this;
         setupToolbar(this);
         utils.getUniqueId();
-        utils.switchFragment(new MainFrag());
+        if (!isHasToRecall())
+            utils.switchFragment(new MainFrag());
 //        setCompoundDrawable();
+        setHasToRecall(false);
         setOnClickListener();
         applyThemeConfig(toolbar);
         initRightMenuData();
@@ -415,10 +420,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Preferences.setSharedPreferenceString(appContext,
                             LANGUAGE_KEY, lang);
 //                    recreate();
-                    Intent mStartActivity = new Intent(context, MainActivity.class);
-                    startActivity(mStartActivity);
+                    setHasToRecall(true);
+                    recreate();
+//                    Intent mStartActivity = new Intent(context, MainActivity.class);
+//                    startActivity(mStartActivity);
                 } else if (str.contains("دقة") || str.contains("Currency")) {
-                    makeDefaultCurrencyCall(userSubMenu.getUserSubMenuCode());
+                    reCallHomeData(userSubMenu.getUserSubMenuCode());
                 }
                 utils.printLog("InsideChildClick", "" + userSubMenu.getUserSubMenuCode());
                 closeDrawer();
@@ -428,30 +435,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
     
-    private void makeDefaultCurrencyCall(String code) {
+    private void reCallHomeData(String code) {
         
-        AppConstants.setMidFixApi("getCurrencyByCode");
+        AppConstants.setMidFixApi("home");
         Map<String, String> map = new HashMap<>();
-        if (code.isEmpty()) {
-            map.put("code", Preferences.getSharedPreferenceString(appContext
-                    , CURRENCY_KEY, DEFAULT_STRING_VAL));
-        } else {
-            map.put("code", code);
-        }
+        
+        map.put("currency_code", Preferences.getSharedPreferenceString(appContext
+                , CURRENCY_KEY, DEFAULT_STRING_VAL));
+        map.put("language_code", Preferences.getSharedPreferenceString(appContext
+                , LANGUAGE_KEY, DEFAULT_STRING_VAL));
+        
         Bundle bundle = new Bundle();
         
         bundle.putBoolean("hasParameters", true);
         bundle.putSerializable("parameters", (Serializable) map);
         Intent intent = new Intent(context, FetchData.class);
         intent.putExtras(bundle);
-        startActivityForResult(intent, CURRENCY_REQUEST_CODE);
+        startActivityForResult(intent, HOME_REQUEST_CODE);
     }
     
     private void setupToolbar(Context context) {
         
         
         utils.setItemCount();
-
+        
         String logoType = Preferences.getSharedPreferenceString(appContext, LOGO_TYPE, "");
         utils.printLog("LogoType = " + logoType);
         String logo = Preferences
@@ -834,9 +841,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         R.string.register, new FragRegister());
             }
         } else if (id == R.id.home_tv) {
-//            utils.switchFragment(new MainFrag());
-            recreate();
-            //            utils.switchFragment(new LoginMaterial());
+            utils.switchFragment(new MainFrag());
+//            recreate();
+            
         } else if (id == R.id.search_icon) {
             startActivityForResult(new Intent(context, SearchActivity.class), SEARCH_REQUEST_CODE);
         } else if (id == R.id.cart_layout) {
@@ -851,8 +858,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         
         super.onActivityResult(requestCode, resultCode, data);
         
-        if (requestCode == SEARCH_REQUEST_CODE || requestCode == CURRENCY_REQUEST_CODE
-                || requestCode == LANGUAGE_REQUEST_CODE) {
+        if (requestCode == SEARCH_REQUEST_CODE || requestCode == HOME_REQUEST_CODE) {
             if (data != null) {
                 String responseStr = data.getStringExtra("result");
                 utils.printLog("ResponseIs = " + responseStr);

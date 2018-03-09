@@ -18,16 +18,15 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.web2design.souqclone.app.utils.AppConstants;
 import com.web2design.souqclone.app.R;
 import com.web2design.souqclone.app.controller.ProductImagePreviewAdapter;
 import com.web2design.souqclone.app.controller.ProductOptionsAdapter;
 import com.web2design.souqclone.app.model.Options;
 import com.web2design.souqclone.app.model.Product;
 import com.web2design.souqclone.app.model.ProductOptionValueItem;
+import com.web2design.souqclone.app.utils.AppConstants;
 import com.web2design.souqclone.app.view.activities.FetchData;
 
 import org.json.JSONArray;
@@ -237,10 +236,11 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                             String val = subOptionsList.get(k).getName();
                             utils.printLog("Color Value = ", val);
                         }
-                        optionsList.add(new Options(optionsObj.optString("product_option_id")
-                                , subOptionsList
-                                , optionsObj.optString("name")
-                                , optionsObj.optString("option_id")));
+                        if (!subOptionsList.isEmpty() && subOptionsList.size() > 0)
+                            optionsList.add(new Options(optionsObj.optString("product_option_id")
+                                    , subOptionsList
+                                    , optionsObj.optString("name")
+                                    , optionsObj.optString("option_id")));
                     }
                     if (!optionsList.isEmpty() || optionsList.size() > 0) {
                         availableOptionsLayout.setVisibility(View.VISIBLE);
@@ -275,6 +275,13 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
         switch (v.getId()) {
             
             case R.id.add_to_cart_btn:
+                if (optionsList.size() != AppConstants.optionsList.size()) {
+                    utils.showAlert(R.string.information_text, R.string.select_option_text,
+                            false,
+                            R.string.ok, null,
+                            R.string.cancel_text, null);
+                    return;
+                }
                 Bundle bundle = new Bundle();
                 bundle.putString("id", product.getProductId());
                 utils.printLog("ProductId", "ID=" + product.getProductId());

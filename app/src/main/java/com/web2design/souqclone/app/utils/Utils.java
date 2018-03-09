@@ -252,7 +252,7 @@ public class Utils {
     }
     
     public void printLog(String tag, String msg) {
-        Log.e(mContext.getClass() + " " + tag, msg);
+        Log.e(mContext.getClass() + " " + tag, "" + msg);
     }
     
     public void setupSlider(final ViewPager mPager, CircleIndicator indicator,
@@ -672,6 +672,7 @@ public class Utils {
                                      final List<String> list, int selectedIndex,
                                      final ClickInterface clickInterface) {
         
+        printLog("Utils", "List = " + list);
         this.position = 0;
         final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         
